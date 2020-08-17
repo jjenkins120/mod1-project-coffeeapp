@@ -4,7 +4,6 @@ require_relative '../config/environment'
 puts "Welcome to K&J Cafe!"
 
 
-
 def welcome
     prompt = TTY::Prompt.new
     prompt.select("Please choose from one of the following options:") do |menu|

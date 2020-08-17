@@ -40,7 +40,7 @@ Drink.create ({
     price: 5
 })
 Drink.create ({
-    name: "Cappucino",
+    name: "Cappuccino",
     price: 5
 })
 Drink.create ({
@@ -62,47 +62,47 @@ end
 puts "🌿 seeding ingredients"
 
 Ingredient.create ({
-    name: "espresso shot"
+    name: "Espresso Shot"
     })
 
 Ingredient.create ({
-    name: "steamed milk"
+    name: "Steamed Milk"
 })
 
 Ingredient.create ({
-    name: "sugar"
+    name: "Sugar"
 })
 
 Ingredient.create ({
-    name: "earl grey tea"
+    name: "Earl Grey Tea"
 })
 
 Ingredient.create ({
-    name: "vanilla syrup"
+    name: "Vanilla Syrup"
 })
 
 Ingredient.create ({
-    name: "hot water"
+    name: "Hot Water"
 })
 
 Ingredient.create ({
-    name: "hazelnut"
+    name: "Hazelnut"
 })
 
 Ingredient.create ({
-    name: "chocolate"
+    name: "Chocolate"
 })
 
 Ingredient.create ({
-    name: "cinnamon"
+    name: "Cinnamon"
 })
 
 Ingredient.create ({
-    name: "whipped cream"
+    name: "Whipped Cream"
 })
 
 Ingredient.create ({
-    name: "caramel"
+    name: "Caramel"
 })
 
 
@@ -111,17 +111,17 @@ puts "📃 seeding recipe_items"
 
 RecipeItem.create ({
         drink_id: Drink.all.find_by(name: "Cafe Americano").id,
-        ingredient_id: Ingredient.all.find_by(name: "espresso shot").id
+        ingredient_id: Ingredient.all.find_by(name: "Espresso Shot").id
     })
 
 RecipeItem.create ({
         drink_id: Drink.all.find_by(name: "Cafe Latte").id,
-        ingredient_id: Ingredient.all.find_by(name: "steamed milk").id
+        ingredient_id: Ingredient.all.find_by(name: "Steamed Milk").id
     })
 
 RecipeItem.create ({
         drink_id: Drink.all.find_by(name: "London Fog Latte").id,
-        ingredient_id: Ingredient.all.find_by(name: "earl grey tea").id
+        ingredient_id: Ingredient.all.find_by(name: "Earl Grey Tea").id
     })    
     
 
