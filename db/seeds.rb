@@ -36,14 +36,14 @@ puts "💲 seeding orders"
         })
 end
 
-puts "💲 seeding ingredients"
+puts "🌿 seeding ingredients"
 20.times do
     Ingredient.create ({
             name: Faker::Food.ingredient
         })
 end
 
-puts "💲 seeding recipe_items"
+puts "📃 seeding recipe_items"
 
 20.times do
     RecipeItem.create ({
