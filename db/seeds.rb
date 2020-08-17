@@ -15,15 +15,38 @@ puts "🦹‍♀️ seeding users"
         signed_in?: [true,false].sample
     })
 end
+User.create ({
+    username: "batman",
+    password: "robin",
+    signed_in?: false
+})
 
 puts "☕️ seeding drinks"
 
-20.times do
-    Drink.create ({
-            name: Faker::Coffee.blend_name,
-            price: rand(3..15)
-    })
-end
+Drink.create ({
+    name: "Cafe Americano",
+    price: 3
+})
+Drink.create ({
+    name: "Cafe Latte",
+    price: 5
+})
+Drink.create ({
+    name: "London Fog Latte",
+    price: 7
+})
+Drink.create ({
+    name: "Macchiato",
+    price: 5
+})
+Drink.create ({
+    name: "Cappucino",
+    price: 5
+})
+Drink.create ({
+    name: "Espresso",
+    price: 3
+})
 
 puts "💲 seeding orders"
 
@@ -31,25 +54,75 @@ puts "💲 seeding orders"
     Order.create ({
             user_id: User.all.map{|user_instance| user_instance.id}.sample,
             drink_id: Drink.all.map{|drink_instance| drink_instance.id}.sample,
-            price: rand(3..15),
+            #price: Drink.all.find(:drink_id).price,
             favorite?: [true,false].sample
         })
 end
 
 puts "🌿 seeding ingredients"
-20.times do
-    Ingredient.create ({
-            name: Faker::Food.ingredient
-        })
-end
+
+Ingredient.create ({
+    name: "espresso shot"
+    })
+
+Ingredient.create ({
+    name: "steamed milk"
+})
+
+Ingredient.create ({
+    name: "sugar"
+})
+
+Ingredient.create ({
+    name: "earl grey tea"
+})
+
+Ingredient.create ({
+    name: "vanilla syrup"
+})
+
+Ingredient.create ({
+    name: "hot water"
+})
+
+Ingredient.create ({
+    name: "hazelnut"
+})
+
+Ingredient.create ({
+    name: "chocolate"
+})
+
+Ingredient.create ({
+    name: "cinnamon"
+})
+
+Ingredient.create ({
+    name: "whipped cream"
+})
+
+Ingredient.create ({
+    name: "caramel"
+})
+
 
 puts "📃 seeding recipe_items"
 
-20.times do
-    RecipeItem.create ({
-            drink_id: Drink.all.map{|drink_instance| drink_instance.id}.sample,
-            ingredient_id: Ingredient.all.map{|ingredient_instance| ingredient_instance.id}.sample
-        })
-end
+
+RecipeItem.create ({
+        drink_id: Drink.all.find_by(name: "Cafe Americano").id,
+        ingredient_id: Drink.all.find_by(name: "espresso shot").id
+    })
+
+RecipeItem.create ({
+        drink_id: Drink.all.find_by(name: "Cafe Latte").id,
+        ingredient_id: Drink.all.find_by(name: "steamed milk").id
+    })
+
+RecipeItem.create ({
+        drink_id: Drink.all.find_by(name: "London Fog Latte").id,
+        ingredient_id: Drink.all.find_by(name: "earl grey tea").id
+    })    
+    
 
 puts "✨Done!"
