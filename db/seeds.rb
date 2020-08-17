@@ -111,17 +111,17 @@ puts "📃 seeding recipe_items"
 
 RecipeItem.create ({
         drink_id: Drink.all.find_by(name: "Cafe Americano").id,
-        ingredient_id: Drink.all.find_by(name: "espresso shot").id
+        ingredient_id: Ingredient.all.find_by(name: "espresso shot").id
     })
 
 RecipeItem.create ({
         drink_id: Drink.all.find_by(name: "Cafe Latte").id,
-        ingredient_id: Drink.all.find_by(name: "steamed milk").id
+        ingredient_id: Ingredient.all.find_by(name: "steamed milk").id
     })
 
 RecipeItem.create ({
         drink_id: Drink.all.find_by(name: "London Fog Latte").id,
-        ingredient_id: Drink.all.find_by(name: "earl grey tea").id
+        ingredient_id: Ingredient.all.find_by(name: "earl grey tea").id
     })    
     
 
