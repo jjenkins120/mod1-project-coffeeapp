@@ -15,6 +15,11 @@ puts "🦹‍♀️ seeding users"
         signed_in?: [true,false].sample
     })
 end
+User.create ({
+    username: "batman",
+    password: "robin",
+    signed_in?: false
+})
 
 puts "☕️ seeding drinks"
 
