@@ -21,7 +21,8 @@ def welcome2
     prompt = TTY::Prompt.new
     prompt.select("Please choose from one of the following options:") do |menu|
         menu.choice "Order", -> { Order.new_order }
-        menu.choice "Account Information", -> {}
+        menu.choice "Account Information", -> { account_method }
+        menu.choice "Sign Out", -> { User.sign_out }
         menu.choice "Exit", -> { exit_method }
     end
 end

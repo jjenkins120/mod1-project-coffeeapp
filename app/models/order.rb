@@ -25,25 +25,23 @@ class Order < ActiveRecord::Base
     def self.order_confirm(drink_instance)
         if User.is_signed_in 
             Order.create({user_id: User.find_by(signed_in?: true).id, drink_id: drink_instance.id, price: drink_instance.price})
-            Order.last.favorite
+            Order.last.favorite(drink_instance)
         else
             Order.create({drink_id: drink_instance.id, price: drink_instance.price})
         end
         system "clear"
-        puts "You have successfully ordered a #{drink_instance.name}. Thank you for your patronage."
+        puts "You have successfully ordered a #{drink_instance.name}. Thanks for coming!"
         sleep (3)
         welcome
     end
 
-    def favorite
+    def favorite(drink_instance)
         prompt = TTY::Prompt.new
         prompt.select("Would you like to add this order to your Favorites?") do |menu|
-            menu.choice "Yes", -> {self.update(favorite?: true); puts "Added to favorites!"; sleep (2)}
-            menu.choice "No", -> {"Order not added to your Favorites"}
+            menu.choice "Yes", -> {self.update(favorite?: true); puts "#{drink_instance.name} added to Favorites!"; sleep (2)}
+            menu.choice "No", -> {"#{drink_instance.name} not added to your Favorites"; sleep (2)}
         end
     end
-
-
 
 
 end
