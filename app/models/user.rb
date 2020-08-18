@@ -33,14 +33,14 @@ class User < ActiveRecord::Base
     def self.create_account
         puts "Please enter a username:"
         username = gets.chomp
-        if self.all.find_by(username: username)
+        if self.all.find_by(username: username.downcase)
             puts "Username already exists."
             self.create_account
         else 
             puts "Please create a password"
             password = gets.chomp
             User.create({username: username, password: password, signed_in?: true})
-            puts "Account username:#{username} created! You are now signed in."
+            puts "Account username: \"#{username}\" created! You are now signed in!"
             welcome 
         end 
     end

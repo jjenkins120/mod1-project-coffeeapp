@@ -2,7 +2,6 @@ class Order < ActiveRecord::Base
     belongs_to :user
     belongs_to :drink
 
-
     def self.new_order
         prompt = TTY::Prompt.new
         prompt.select("Please choose from one of the following drink options:") do |menu|
