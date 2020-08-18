@@ -25,27 +25,33 @@ puts "☕️ seeding drinks"
 
 Drink.create ({
     name: "Cafe Americano",
-    price: 3
+    price: 3,
+    is_menu_item?: true
 })
 Drink.create ({
     name: "Cafe Latte",
-    price: 5
+    price: 5,
+    is_menu_item?: true
 })
 Drink.create ({
     name: "London Fog Latte",
-    price: 7
+    price: 7,
+    is_menu_item?: true
 })
 Drink.create ({
     name: "Macchiato",
-    price: 5
+    price: 5,
+    is_menu_item?: true
 })
 Drink.create ({
     name: "Cappuccino",
-    price: 5
+    price: 5,
+    is_menu_item?: true
 })
 Drink.create ({
     name: "Espresso",
-    price: 3
+    price: 3,
+    is_menu_item?: true
 })
 
 puts "💲 seeding orders"
@@ -62,47 +68,66 @@ end
 puts "🌿 seeding ingredients"
 
 Ingredient.create ({
-    name: "Espresso Shot"
+    name: "Espresso Shot",
+    ingredient_type: "Base"
     })
 
 Ingredient.create ({
-    name: "Steamed Milk"
+    name: "Steamed Milk",
+    ingredient_type: "Milk/Water"
 })
 
 Ingredient.create ({
-    name: "Sugar"
+    name: "Sugar",
+    ingredient_type: "Topping"
 })
 
 Ingredient.create ({
-    name: "Earl Grey Tea"
+    name: "Earl Grey Tea",
+    ingredient_type: "Base"
 })
 
 Ingredient.create ({
-    name: "Vanilla Syrup"
+    name: "Vanilla Syrup",
+    ingredient_type: "Syrup"
 })
 
 Ingredient.create ({
-    name: "Hot Water"
+    name: "Hot Water",
+    ingredient_type: "Milk/Water"
 })
 
 Ingredient.create ({
-    name: "Hazelnut"
+    name: "Hazelnut",
+    ingredient_type: "Syrup"
 })
 
 Ingredient.create ({
-    name: "Chocolate"
+    name: "Chocolate",
+    ingredient_type: "Topping"
 })
 
 Ingredient.create ({
-    name: "Cinnamon"
+    name: "Cinnamon",
+    ingredient_type: "Topping"
 })
 
 Ingredient.create ({
-    name: "Whipped Cream"
+    name: "Whipped Cream",
+    ingredient_type: "Topping"
 })
 
 Ingredient.create ({
-    name: "Caramel"
+    name: "Caramel",
+    ingredient_type: "Topping"
+})
+Ingredient.create ({
+    name: "Caramel Syrup",
+    ingredient_type: "Syrup"
+})
+Ingredient.create ({
+    name: "Almond Milk",
+    ingredient_type: "Milk/Water"
 })
 
 
@@ -115,14 +140,49 @@ RecipeItem.create ({
     })
 
 RecipeItem.create ({
+    drink_id: Drink.find_by(name: "Cafe Americano").id,
+    ingredient_id: Ingredient.find_by(name: "Hot Water").id 
+})
+
+RecipeItem.create ({
         drink_id: Drink.all.find_by(name: "Cafe Latte").id,
         ingredient_id: Ingredient.all.find_by(name: "Steamed Milk").id
     })
 
 RecipeItem.create ({
+    drink_id: Drink.find_by(name: "Cafe Latte").id,
+    ingredient_id: Ingredient.find_by(name: "Espresso Shot").id 
+})
+
+RecipeItem.create ({
         drink_id: Drink.all.find_by(name: "London Fog Latte").id,
         ingredient_id: Ingredient.all.find_by(name: "Earl Grey Tea").id
-    })    
+    })
+    
+RecipeItem.create ({
+    drink_id: Drink.find_by(name: "London Fog Latte").id,
+    ingredient_id: Ingredient.find_by(name: "Steamed Milk").id 
+})
+
+RecipeItem.create ({
+    drink_id: Drink.find_by(name: "London Fog Latte").id,
+    ingredient_id: Ingredient.find_by(name: "Vanilla Syrup").id 
+})
+
+RecipeItem.create ({
+    drink_id: Drink.find_by(name: "Macchiato").id,
+    ingredient_id: Ingredient.find_by(name: "Espresso Shot").id
+})
+
+RecipeItem.create ({
+    drink_id: Drink.find_by(name: "Macchiato").id,
+    ingredient_id: Ingredient.find_by(name: "Steamed Milk").id 
+})
+
+RecipeItem.create ({
+    drink_id: Drink.find_by(name: "Macchiato").id,
+    ingredient_id: Ingredient.find_by(name: "Chocolate").id 
+})
     
 
 puts "✨Done!"
