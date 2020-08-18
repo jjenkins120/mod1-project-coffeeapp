@@ -19,8 +19,8 @@ class User < ActiveRecord::Base
     end
 
     def self.sign_out
-        prompt = TTY::Prompt.new
-        prompt.select("Are you sure that you want to sign out?") do |menu|
+        #prompt = TTY::Prompt.new
+        $prompt.select("Are you sure that you want to sign out?") do |menu|
             menu.choice "Yes", -> {User.which_user.update(signed_in?:false);welcome}
             menu.choice "No", -> {welcome}
         end
@@ -28,8 +28,8 @@ class User < ActiveRecord::Base
     end
 
     def enter_password
-        prompt = TTY::Prompt.new
-        password = prompt.mask("Please enter password:")
+        #prompt = TTY::Prompt.new
+        password = $prompt.mask("Please enter password:")
         if password == self.password 
             self.update(signed_in?: true)
             puts "You are signed in!"
@@ -51,9 +51,9 @@ class User < ActiveRecord::Base
             puts "Username already exists."
             self.create_account
         else 
-            prompt = TTY::Prompt.new
-            password = prompt.mask("Please create a password:")
-            if password == prompt.mask("Please re-enter password:")
+            #prompt = TTY::Prompt.new
+            password = $prompt.mask("Please create a password:")
+            if password == $prompt.mask("Please re-enter password:")
                 User.create({username: username, password: password, signed_in?: true})
                 puts "Account username: \"#{username}\" created! You are now signed in!"
                 sleep (2)

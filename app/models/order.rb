@@ -3,11 +3,24 @@ class Order < ActiveRecord::Base
     belongs_to :drink
 
     def self.new_order
-        prompt = TTY::Prompt.new
-        prompt.select("Please choose from one of the following drink options:") do |menu|
+        User.is_signed_in ? self.order2 : self.order1
+    end
+
+    def self.order1
+        $prompt.select("Please choose from one of the following drink options:\n") do |menu|
             system "clear"
-            Drink.menu_items.each{|drink_instance| menu.choice "#{drink_instance.name} | #{(drink_instance.ingredients.map {|ingredient| ingredient.name}).join()} | $#{drink_instance.price}", -> { Order.order(drink_instance)}}
-            menu.choice "Create your own", -> { Order.customize }
+            Drink.menu_items.each{|drink_instance| menu.choice "#{drink_instance.name} | $#{drink_instance.price} | #{(drink_instance.ingredients.map {|ingredient| ingredient.name}).join(", ")}\n", -> { Order.order(drink_instance)}}
+            menu.choice "Create your own\n", -> { Order.customize }
+            menu.choice "Go Back", -> { welcome }
+        end 
+    end
+
+    def self.order2
+        $prompt.select("Please choose from one of the following drink options:\n") do |menu|
+            system "clear"
+            Drink.menu_items.each{|drink_instance| menu.choice "#{drink_instance.name} | $#{drink_instance.price} | #{(drink_instance.ingredients.map {|ingredient| ingredient.name}).join(", ")}\n", -> { Order.order(drink_instance)}}
+            uniq_favorites.each{|drink_name| menu.choice "#{drink_name} | $#{Drink.find_by(name: drink_name).price} | #{(Drink.find_by(name: drink_name).ingredients.map {|ingredient| ingredient.name}).join(", ")}\n", -> { Order.order(Drink.find_by(name: drink_name))}}
+            menu.choice "Create your own\n", -> { Order.customize }
             menu.choice "Go Back", -> { welcome }
         end 
     end
@@ -15,10 +28,12 @@ class Order < ActiveRecord::Base
 
     def self.order(drink_instance)
         system "clear"
-        puts "Ingredients: #{(drink_instance.ingredients.map {|ingredient| ingredient.name}).join()}"
+        if drink_instance.is_menu_item? == true
+            puts "Drink name: #{drink_instance.name}"
+        end
+        puts "Ingredients: #{(drink_instance.ingredients.map {|ingredient| ingredient.name}).join(", ")}"
         puts "This drink costs $#{drink_instance.price}."
-        prompt = TTY::Prompt.new
-        prompt.select("Would you like to CONFIRM ORDER or go back?:") do |menu|
+        $prompt.select("Would you like to CONFIRM ORDER or go back?:") do |menu|
             menu.choice "Confirm", -> {Order.order_confirm(drink_instance)}
             menu.choice "Go back", -> {Order.new_order}
         end
@@ -38,8 +53,7 @@ class Order < ActiveRecord::Base
     end
 
     def favorite(drink_instance)
-        prompt = TTY::Prompt.new
-        prompt.select("Would you like to add this order to your Favorites?") do |menu|
+        $prompt.select("Would you like to add this order to your Favorites?") do |menu|
             menu.choice "Yes", -> {drink_instance.custom_favorite; self.update(favorite?: true); puts "#{drink_instance.name} added to Favorites!"; sleep (2)}
             menu.choice "No", -> {"#{drink_instance.name} not added to your Favorites"; sleep (2)}
         end
@@ -54,7 +68,5 @@ class Order < ActiveRecord::Base
         Order.order(new_drink)
     end 
 
-        
-
-
+    
 end
