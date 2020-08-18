@@ -38,7 +38,7 @@ class Order < ActiveRecord::Base
     def favorite
         prompt = TTY::Prompt.new
         prompt.select("Would you like to add this order to your Favorites?") do |menu|
-            menu.choice "Yes", -> {self.update(favorite?: true)}
+            menu.choice "Yes", -> {self.update(favorite?: true); puts "Added to favorites!"; sleep (2)}
             menu.choice "No", -> {"Order not added to your Favorites"}
         end
     end
