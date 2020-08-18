@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
         if username == "exit"
             welcome
         else
-            if user = User.all.find_by(username: username)
+            if user = User.find_by(username: username)
                 user.enter_password
             else
                 puts "User does not exist"
@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
     def self.create_account
         puts "Please enter a username:"
         username = gets.chomp
-        if self.all.find_by(username: username.downcase)
+        if self.find_by(username: username.downcase)
             puts "Username already exists."
             self.create_account
         else 
@@ -46,6 +46,11 @@ class User < ActiveRecord::Base
             sleep (2)
             welcome 
         end 
+    end
+
+    def self.is_signed_in
+        User.find_by(signed_in?: true)?
+        true : false
     end
 
 end

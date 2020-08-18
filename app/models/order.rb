@@ -6,9 +6,8 @@ class Order < ActiveRecord::Base
         prompt = TTY::Prompt.new
         prompt.select("Please choose from one of the following drink options:") do |menu|
             system "clear"
-            Drink.all.each{|drink_instance| menu.choice "#{drink_instance.name}", -> { Order.order(drink_instance)}}
+            Drink.all.each{|drink_instance| menu.choice "#{drink_instance.name} | #{(drink_instance.ingredients.map {|ingredient| ingredient.name}).join()} | $#{drink_instance.price}", -> { Order.order(drink_instance)}}
         menu.choice "Go Back", -> { welcome }
-        menu.choice "Exit", -> { exit }
         end 
     end
 
@@ -26,7 +25,7 @@ class Order < ActiveRecord::Base
     def self.order_confirm(drink_instance)
         system "clear"
         puts "You have successfully ordered a #{drink_instance.name}. Thank you for your patronage."
-        sleep (2)
+        sleep (3)
         welcome
     end
 

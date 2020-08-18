@@ -8,14 +8,7 @@ sleep(3)
 
 
 def welcome
-    system "clear"
-    prompt = TTY::Prompt.new
-    prompt.select("Please choose from one of the following options:") do |menu|
-        menu.choice "Order", -> { Order.new_order }
-        menu.choice "Sign In", -> { User.sign_in }
-        menu.choice "Create Account", -> { User.create_account }
-        menu.choice "Exit", -> { exit }
-    end 
+   User.is_signed_in ? welcome2 : welcome1
 end
 
 welcome
