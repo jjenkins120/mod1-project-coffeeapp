@@ -24,7 +24,9 @@ class Order < ActiveRecord::Base
     end
 
     def self.order_confirm(drink_instance)
+        system "clear"
         puts "You have successfully ordered a #{drink_instance.name}. Thank you for your patronage."
+        sleep (2)
         welcome
     end
 

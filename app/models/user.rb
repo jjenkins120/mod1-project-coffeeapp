@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
                 user.enter_password
             else
                 puts "User does not exist"
+                sleep (2)
                 welcome
             end
         end
@@ -23,6 +24,7 @@ class User < ActiveRecord::Base
         if password == self.password 
             self.update(signed_in?: true)
             puts "You are signed in!"
+            sleep (2)
             welcome
         else
             puts "Password incorrect"
@@ -41,6 +43,7 @@ class User < ActiveRecord::Base
             password = gets.chomp
             User.create({username: username, password: password, signed_in?: true})
             puts "Account username: \"#{username}\" created! You are now signed in!"
+            sleep (2)
             welcome 
         end 
     end
