@@ -23,6 +23,9 @@ class Order < ActiveRecord::Base
     end
 
     def self.order_confirm(drink_instance)
+        if User.is_signed_in 
+            Order.create({username: User.find_by(signed_in?: true)?
+            true : false})
         system "clear"
         puts "You have successfully ordered a #{drink_instance.name}. Thank you for your patronage."
         sleep (3)
