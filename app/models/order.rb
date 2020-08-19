@@ -19,7 +19,7 @@ class Order < ActiveRecord::Base
         $prompt.select("Please choose from one of the following drink options:\n") do |menu|
             system "clear"
             Drink.menu_items.each{|drink_instance| menu.choice "#{drink_instance.name} | $#{drink_instance.price} | #{(drink_instance.ingredients.map {|ingredient| ingredient.name}).join(", ")}\n", -> { Order.order(drink_instance)}}
-            uniq_favorites.each{|drink_name| menu.choice "#{drink_name} | $#{Drink.find_by(name: drink_name).price} | #{(Drink.find_by(name: drink_name).ingredients.map {|ingredient| ingredient.name}).join(", ")}\n", -> { Order.order(Drink.find_by(name: drink_name))}}
+            uniq_favorites.select{|drink_name| Drink.find_by(name: drink_name).is_menu_item? == false}.each{|drink_name| menu.choice "#{drink_name} | $#{Drink.find_by(name: drink_name).price} | #{(Drink.find_by(name: drink_name).ingredients.map {|ingredient| ingredient.name}).join(", ")}\n", -> { Order.order(Drink.find_by(name: drink_name))}}
             menu.choice "Create your own\n", -> { Order.customize }
             menu.choice "Go Back", -> { welcome }
         end 
