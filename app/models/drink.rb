@@ -5,7 +5,7 @@ class Drink < ActiveRecord::Base
     has_many :ingredients, through: :recipe_items
 
     def self.menu_items
-        Drink.all.select {|drink_instance| drink_instance.is_menu_item? == true}
+        self.all.select {|drink_instance| drink_instance.is_menu_item? == true}
     end
 
     def custom_favorite
