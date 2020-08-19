@@ -116,7 +116,11 @@ def order_confirm(drink_instance)
         Order.create({drink_id: drink_instance.id, price: drink_instance.price})
     end
     system "clear"
-    puts "You have successfully ordered a #{drink_instance.name}. Thanks for coming!"
+    if drink_instance.is_menu_item?
+        puts "You have successfully ordered a #{drink_instance.name}. Thanks for coming!"
+    else
+        puts "You have successfully ordered a customized drink. Thanks for coming!"
+    end
     sleep (3)
     welcome
 end
@@ -125,6 +129,7 @@ def customize
     new_drink = Drink.create({price: 8, is_menu_item?: false})
     selection = $prompt.multi_select("Please select ingredients", Ingredient.all.map {|instance| instance.name})
     selection.each {|ingredient_name| RecipeItem.create({drink_id: new_drink.id, ingredient_id: Ingredient.find_by(name: ingredient_name).id})}
+    
     order(new_drink)
 end 
 
