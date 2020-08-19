@@ -9,7 +9,7 @@ class Order < ActiveRecord::Base
     def self.order1
         $prompt.select("Please choose from one of the following drink options:\n") do |menu|
             system "clear"
-            Drink.menu_items.each{|drink_instance| menu.choice "#{drink_instance.name} | $#{drink_instance.price} | #{(drink_instance.ingredients.map {|ingredient| ingredient.name}).join(", ")}\n", -> { Order.order(drink_instance)}}
+            Drink.menu_items.each{|drink_instance| menu.choice Order.name_price_ingredient(drink_instance), -> { Order.order(drink_instance)}}
             menu.choice "Create your own\n", -> { Order.customize }
             menu.choice "Go Back", -> { welcome }
         end 
@@ -18,11 +18,15 @@ class Order < ActiveRecord::Base
     def self.order2
         $prompt.select("Please choose from one of the following drink options:\n") do |menu|
             system "clear"
-            Drink.menu_items.each{|drink_instance| menu.choice "#{drink_instance.name} | $#{drink_instance.price} | #{(drink_instance.ingredients.map {|ingredient| ingredient.name}).join(", ")}\n", -> { Order.order(drink_instance)}}
-            uniq_favorites.select{|drink_name| Drink.find_by(name: drink_name).is_menu_item? == false}.each{|drink_name| menu.choice "#{drink_name} | $#{Drink.find_by(name: drink_name).price} | #{(Drink.find_by(name: drink_name).ingredients.map {|ingredient| ingredient.name}).join(", ")}\n", -> { Order.order(Drink.find_by(name: drink_name))}}
+            Drink.menu_items.each{|drink_instance| menu.choice Order.name_price_ingredient(drink_instance), -> { Order.order(drink_instance)}}
+            uniq_favorites.select{|drink_name| Drink.find_by(name: drink_name).is_menu_item? == false}.each{|drink_name| menu.choice Order.name_price_ingredient(Drink.find_by(name: drink_name)), -> { Order.order(Drink.find_by(name: drink_name))}}
             menu.choice "Create your own\n", -> { Order.customize }
             menu.choice "Go Back", -> { welcome }
         end 
+    end
+
+    def self.name_price_ingredient(drink_instance)
+        "#{drink_instance.name} | $#{drink_instance.price} | #{(drink_instance.ingredients.map {|ingredient| ingredient.name}).join(", ")}\n"
     end
     
 
