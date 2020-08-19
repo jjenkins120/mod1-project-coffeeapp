@@ -72,9 +72,10 @@ end
 
 #Allows users to created their own drink
 def customize
-    new_drink = Drink.create({price: 8, is_menu_item?: false})
-    selection = $prompt.multi_select("Please select ingredients", Ingredient.all.map {|instance| instance.name})
+    new_drink = Drink.create({is_menu_item?: false})
+    selection = $prompt.multi_select("Please select ingredients", Ingredient.grouped_by_type.map {|instance| instance.name})
     selection.each {|ingredient_name| RecipeItem.create({drink_id: new_drink.id, ingredient_id: Ingredient.find_by(name: ingredient_name).id})}
+    new_drink.update(price: selection.count.to_i)
     order(new_drink)
 end 
 
