@@ -2,8 +2,7 @@ class User < ActiveRecord::Base
     has_many :orders
     has_many :drinks, through: :orders
 
-   
-
+    #Helper method that allows user to enter password while signing in
     def enter_password
         password = $prompt.mask("Please enter password:")
         if password == self.password 
@@ -16,7 +15,5 @@ class User < ActiveRecord::Base
             sign_in
         end
     end
-
-    
 
 end

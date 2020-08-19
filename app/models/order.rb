@@ -2,6 +2,7 @@ class Order < ActiveRecord::Base
     belongs_to :user
     belongs_to :drink
 
+    #Helper method that gives signed-in user option to save drink to favorites
     def favorite(drink_instance)
         $prompt.select("Would you like to add this order to your Favorites?") do |menu|
             menu.choice "Yes", -> {drink_instance.custom_favorite; self.update(favorite?: true); puts "#{drink_instance.name} added to Favorites!"; sleep (2)}
@@ -9,5 +10,4 @@ class Order < ActiveRecord::Base
         end
     end
 
-    
 end

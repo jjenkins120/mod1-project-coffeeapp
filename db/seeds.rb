@@ -1,15 +1,12 @@
-puts "destroying instances"
+puts "💣 destroying instances"
 
 Ingredient.destroy_all
+Order.destroy_all
+User.destroy_all
+RecipeItem.destroy_all
+Drink.destroy_all
 
-puts "🦹‍♀️ seeding users"
-
-
-User.create ({
-    username: "batman",
-    password: "robin",
-    signed_in?: false
-})
+#puts "🦹‍♀️ seeding users"
 
 puts "☕️ seeding drinks"
 
@@ -44,7 +41,7 @@ Drink.create ({
     is_menu_item?: true
 })
 
-puts "💲 seeding orders"
+#puts "💲 seeding orders"
 
 # 20.times do
 #     Order.create ({
@@ -58,7 +55,7 @@ puts "💲 seeding orders"
 puts "🌿 seeding ingredients"
 
 Ingredient.create ({
-    name: "Espresso Shot",
+    name: "Espresso (2 Shots)",
     ingredient_type: "Base"
     })
 
@@ -126,7 +123,7 @@ puts "📃 seeding recipe_items"
 
 RecipeItem.create ({
         drink_id: Drink.all.find_by(name: "Cafe Americano").id,
-        ingredient_id: Ingredient.all.find_by(name: "Espresso Shot").id
+        ingredient_id: Ingredient.all.find_by(name: "Espresso (2 Shots)").id
     })
 
 RecipeItem.create ({
@@ -135,14 +132,14 @@ RecipeItem.create ({
 })
 
 RecipeItem.create ({
+    drink_id: Drink.find_by(name: "Cafe Latte").id,
+    ingredient_id: Ingredient.find_by(name: "Espresso (2 Shots)").id 
+})
+
+RecipeItem.create ({
         drink_id: Drink.all.find_by(name: "Cafe Latte").id,
         ingredient_id: Ingredient.all.find_by(name: "Steamed Milk").id
     })
-
-RecipeItem.create ({
-    drink_id: Drink.find_by(name: "Cafe Latte").id,
-    ingredient_id: Ingredient.find_by(name: "Espresso Shot").id 
-})
 
 RecipeItem.create ({
         drink_id: Drink.all.find_by(name: "London Fog Latte").id,
@@ -161,7 +158,7 @@ RecipeItem.create ({
 
 RecipeItem.create ({
     drink_id: Drink.find_by(name: "Macchiato").id,
-    ingredient_id: Ingredient.find_by(name: "Espresso Shot").id
+    ingredient_id: Ingredient.find_by(name: "Espresso (2 Shots)").id
 })
 
 RecipeItem.create ({
@@ -173,6 +170,30 @@ RecipeItem.create ({
     drink_id: Drink.find_by(name: "Macchiato").id,
     ingredient_id: Ingredient.find_by(name: "Chocolate").id 
 })
-    
+
+RecipeItem.create ({
+    drink_id: Drink.find_by(name: "Macchiato").id,
+    ingredient_id: Ingredient.find_by(name: "Whipped Cream").id 
+})
+
+RecipeItem.create ({
+    drink_id: Drink.find_by(name: "Cappuccino").id,
+    ingredient_id: Ingredient.find_by(name: "Espresso (2 Shots)").id 
+})
+
+RecipeItem.create ({
+    drink_id: Drink.find_by(name: "Cappuccino").id,
+    ingredient_id: Ingredient.find_by(name: "Steamed Milk").id 
+})
+
+RecipeItem.create ({
+    drink_id: Drink.find_by(name: "Cappuccino").id,
+    ingredient_id: Ingredient.find_by(name: "Sugar").id 
+})
+
+RecipeItem.create ({
+    drink_id: Drink.find_by(name: "Espresso").id,
+    ingredient_id: Ingredient.find_by(name: "Espresso (2 Shots)").id 
+})
 
 puts "✨Done!"
