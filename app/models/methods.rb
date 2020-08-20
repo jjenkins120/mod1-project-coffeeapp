@@ -103,16 +103,15 @@ def is_favorite?
     all_favorites.find {|favorite_order| favorite_order.drink_id == Order.last.drink_id}
 end 
 
-#Allows user to confirm drink order and displays drink information upon confirmation
-#Allows signed-in user to save as favorite
-def order_confirm(drink_instance)
-    checkout_graphic
+#Helper method for order_confirm(drink_instance)
+def order_confirm_helper(drink_instance)
     if is_signed_in 
-        Order.create({user_id: User.find_by(signed_in?: true).id, drink_id: drink_instance.id, price: drink_instance.price})
+        created_order = Order.create({user_id: which_user.id, drink_id: drink_instance.id, price: drink_instance.price})
         if !is_favorite?
             Order.last.favorite
         end
-        @order_array << Order.last
+        #binding.pry
+        @order_array << created_order
         another_drink(drink_instance)
     else
         Order.create({drink_id: drink_instance.id, price: drink_instance.price})
@@ -120,6 +119,18 @@ def order_confirm(drink_instance)
         another_drink (drink_instance)
     end
 end
+
+#Allows user to confirm drink order and displays drink information upon confirmation
+#Allows signed-in user to save as favorite
+def order_confirm(drink_instance)
+    if @order_array
+        order_confirm_helper(drink_instance)
+    else
+        @order_array = []
+        order_confirm_helper(drink_instance)
+    end
+end
+
 
 #Informs user of successful order and total order price
 def finalize_order(drink_instance)
@@ -185,7 +196,7 @@ def create_account
     if username == "exit"
         welcome
     elsif    
-        User.find_by(username: username.downcase)
+        User.find_by(username: username)
         puts "Username already exists."
         create_account
     else 
