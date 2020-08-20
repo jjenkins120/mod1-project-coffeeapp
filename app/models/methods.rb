@@ -19,6 +19,7 @@ end
 #Provides welcome menu template for user not signed in
 def welcome1
     system "clear"
+    welcome_graphic
     $prompt.select("Please choose from one of the following options:") do |menu|
         menu.choice "Order", -> { new_order }
         menu.choice "Sign In", -> { sign_in }
@@ -30,6 +31,7 @@ end
 #Provides welcome menu template for user signed in
 def welcome2
     system "clear"
+    welcome_graphic
     $prompt.select("Please choose from one of the following options:") do |menu|
         menu.choice "Order", -> { new_order }
         menu.choice "Account Information", -> { account_method }
@@ -45,8 +47,9 @@ end
 
 #Provides order menu template for user not signed in
 def order1
+    system "clear"
+    order_graphic
     $prompt.select("Please choose from one of the following drink options:\n") do |menu|
-        system "clear"
         Drink.menu_items.each{|drink_instance| menu.choice name_price_ingredient(drink_instance), -> { order(drink_instance)}}
         menu.choice "Create your own\n", -> { customize }
         menu.choice "Go Back", -> { welcome }
@@ -56,8 +59,9 @@ end
 #Provides order menu template for user signed in
 #Difference from order1 method is the option to select from saved favorites
 def order2
+    system "clear"
     $prompt.select("Please choose from one of the following drink options:\n") do |menu|
-        system "clear"
+        order_graphic
         Drink.menu_items.each{|drink_instance| menu.choice name_price_ingredient(drink_instance), -> { order(drink_instance)}}
         all_favorites.select{|favorite_instance| favorite_instance.drink.is_menu_item? == false}.each{|favorite_instance| menu.choice name_price_ingredient(favorite_instance.drink), -> { order(favorite_instance.drink)}}
         menu.choice "Create your own\n", -> { customize }
@@ -82,6 +86,7 @@ end
 #Allows user to view drink choice before confirming order
 def order(drink_instance)
     system "clear"
+    checkout_graphic
     if drink_instance.is_menu_item? == true
         puts "Drink name: #{drink_instance.name}"
     end
@@ -101,6 +106,7 @@ end
 #Allows user to confirm drink order and displays drink information upon confirmation
 #Allows signed-in user to save as favorite
 def order_confirm(drink_instance)
+    checkout_graphic
     if is_signed_in 
         Order.create({user_id: User.find_by(signed_in?: true).id, drink_id: drink_instance.id, price: drink_instance.price})
         if !is_favorite?
@@ -118,19 +124,17 @@ end
 #Informs user of successful order and total order price
 def finalize_order(drink_instance)
     system "clear"
+    nailed_it_graphic
     if @order_array.count == 1
         if drink_instance.is_menu_item?
             puts "You have successfully ordered a #{drink_instance.name} for a total of $#{drink_instance.price}. Thanks for coming!"
         else
             puts "You have successfully ordered a #{custom_drink_name} for a total of $#{drink_instance.price}. Thanks for coming!"
         end
-        
     elsif @order_array.count == 2
         puts "You have successfully ordered a #{@order_array.first.drink.order_array_name} and #{@order_array.last.drink.order_array_name} for a total of $#{order_array_sum}."
-        
     else
         puts "You have successfully ordered a \n#{@order_array[0, @order_array.count-1].map {|order| order.drink.order_array_name}.join(",\n")}, \nand #{@order_array.last.drink.order_array_name} \nfor a total of $#{order_array_sum}."
-        
     end
     @order_array = []
     sleep (5)
@@ -150,6 +154,7 @@ end
 #Allows user to either add another drink or complete order
 def another_drink(drink_instance)
     system "clear"
+    checkout_graphic
     $prompt.select("Would you like to ADD ANOTHER DRINK or COMPLETE ORDER?") do |menu|
         menu.choice "Add another drink", -> {new_order}
         menu.choice "Complete order", -> {finalize_order(drink_instance)}
@@ -202,6 +207,7 @@ end
 #Provides account menu template only shown to signed-in user 
 def account_method
     system "clear"
+    account_info_graphic
     $prompt.select("Find the following account options:") do |menu|
         menu.choice "View my Order History", -> {see_orders}
         menu.choice "View my Favorites", -> {see_favorites}
@@ -213,6 +219,7 @@ end
 #Allows user to view past orders
 def see_orders
     system "clear"
+    my_orders_graphic
     puts "Here is a list of your Orders:"
     which_user.orders.each {|order_instance| puts "~ #{order_instance.drink.name} \n\s\sPrice: $#{order_instance.drink.price} \n\s\sCreated: #{order_instance.created_at.to_s[0,10]}\n\n\t*********\n\n"}
         $prompt.select("Press 'enter' to return to the previous menu.") do |menu|
@@ -223,6 +230,7 @@ end
 #Allows user to view saved favorites
 def see_favorites
     system "clear"
+    favorites_graphic
     puts "Here is a list of your Favorites:"
     all_favorites.each {|order_instance| puts "~ #{order_instance.drink.name} | $#{order_instance.drink.price} | #{order_instance.drink.ingredients.map {|ingredient_instance|ingredient_instance.name}.join(", ")}\n"}
         $prompt.select("Press 'enter' to return to the previous menu.") do |menu|
@@ -237,6 +245,7 @@ end
 #Allows user to delete their own account
 def delete_account
     system "clear"
+    account_info_graphic
     $prompt.select("Would you like to DELETE your account?") do |menu|
         menu.choice "Delete", -> {which_user.orders.destroy_all; which_user.destroy; puts "Your account has been deleted."; sleep(2); welcome}
         menu.choice "Go back", -> {account_method} 
@@ -254,17 +263,13 @@ end
 
 #Allows user to exit application
 def exit_method
-    puts "
-
-Have a Great Day!
-
- ██████╗  ██████╗  ██████╗ ██████╗ ██████╗ ██╗   ██╗███████╗██╗
- ██╔════╝ ██╔═══██╗██╔═══██╗██╔══██╗██╔══██╗╚██╗ ██╔╝██╔════╝██║
- ██║  ███╗██║   ██║██║   ██║██║  ██║██████╔╝ ╚████╔╝ █████╗  ██║
- ██║   ██║██║   ██║██║   ██║██║  ██║██╔══██╗  ╚██╔╝  ██╔══╝  ╚═╝
- ╚██████╔╝╚██████╔╝╚██████╔╝██████╔╝██████╔╝   ██║   ███████╗██╗
-  ╚═════╝  ╚═════╝  ╚═════╝ ╚═════╝ ╚═════╝    ╚═╝   ╚══════╝╚═╝
-    "
+    system "clear"
+    $background_music.fadeout(2000)
+    puts "\t\t\tHave a Great Day!"
+    sleep(0.5)
+    $pop_sound_effect.play
+    sleep(1)
+    goodbye_graphic
     User.all.each {|user_instance| user_instance.update(signed_in?: false)}
     sleep (1.5)
     exit

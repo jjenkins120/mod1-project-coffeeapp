@@ -1,8 +1,8 @@
 #sound and music variables
-$pouring_coffee_sound = Sound.new("pouring_coffee.mp3")
-$ding_sound_effect = Sound.new("ding.mp3")
-$pop_sound_effect = Sound.new("pop.mp3")
-$background_music = Music.new("background_jazz.wav")
+$pouring_coffee_sound = Sound.new("sound_effects/pouring_coffee.mp3")
+$ding_sound_effect = Sound.new("sound_effects/ding.mp3")
+$pop_sound_effect = Sound.new("sound_effects/pop.mp3")
+$background_music = Music.new("music/background_jazz.wav")
 $background_music.volume = 10
 
 #Graphic Methods
@@ -215,6 +215,33 @@ puts"
 ██ ██  ██ ███████ ██ ██      █████   ██   ██     ██    ██    
 ██  ██ ██ ██   ██ ██ ██      ██      ██   ██     ██    ██    
 ██   ████ ██   ██ ██ ███████ ███████ ██████      ██    ██ ██ \n".colorize(:green)
+end
+
+def account_info_graphic
+puts"
+███    ███ ██    ██      █████   ██████  ██████  ██████  ██    ██ ███    ██ ████████ 
+████  ████  ██  ██      ██   ██ ██      ██      ██    ██ ██    ██ ████   ██    ██    
+██ ████ ██   ████       ███████ ██      ██      ██    ██ ██    ██ ██ ██  ██    ██    
+██  ██  ██    ██        ██   ██ ██      ██      ██    ██ ██    ██ ██  ██ ██    ██    
+██      ██    ██        ██   ██  ██████  ██████  ██████   ██████  ██   ████    ██\n".colorize(:green)
+end
+
+def favorites_graphic
+puts"
+███    ███ ██    ██     ███████  █████  ██    ██  ██████  ██████  ██ ████████ ███████ ███████ 
+████  ████  ██  ██      ██      ██   ██ ██    ██ ██    ██ ██   ██ ██    ██    ██      ██      
+██ ████ ██   ████       █████   ███████ ██    ██ ██    ██ ██████  ██    ██    █████   ███████ 
+██  ██  ██    ██        ██      ██   ██  ██  ██  ██    ██ ██   ██ ██    ██    ██           ██ 
+██      ██    ██        ██      ██   ██   ████    ██████  ██   ██ ██    ██    ███████ ███████\n".colorize(:green)
+end
+
+def my_orders_graphic
+puts"
+███    ███ ██    ██      ██████  ██████  ██████  ███████ ██████  ███████ 
+████  ████  ██  ██      ██    ██ ██   ██ ██   ██ ██      ██   ██ ██      
+██ ████ ██   ████       ██    ██ ██████  ██   ██ █████   ██████  ███████ 
+██  ██  ██    ██        ██    ██ ██   ██ ██   ██ ██      ██   ██      ██ 
+██      ██    ██         ██████  ██   ██ ██████  ███████ ██   ██ ███████\n".colorize(:green)
 end
 
 def goodbye_graphic

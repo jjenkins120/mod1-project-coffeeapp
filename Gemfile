@@ -8,5 +8,6 @@ gem "pry"
 gem "require_all"
 gem "faker"
 gem 'colorize'
+gem 'ruby2d'
 
 gem "tty-prompt", "~> 0.22.0"
