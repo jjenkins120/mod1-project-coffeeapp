@@ -39,7 +39,6 @@ def welcome2
 end
 
 #Provides different order menu templates based on the user's signed-in status
-@order_array = []
 def new_order
     is_signed_in ? order2 : order1
 end
@@ -60,7 +59,7 @@ def order2
     $prompt.select("Please choose from one of the following drink options:\n") do |menu|
         system "clear"
         Drink.menu_items.each{|drink_instance| menu.choice name_price_ingredient(drink_instance), -> { order(drink_instance)}}
-        uniq_favorites.select{|drink_name| Drink.find_by(name: drink_name).is_menu_item? == false}.each{|drink_name| menu.choice name_price_ingredient(Drink.find_by(name: drink_name)), -> { order(Drink.find_by(name: drink_name))}}
+        all_favorites.select{|favorite_instance| favorite_instance.drink.is_menu_item? == false}.each{|favorite_instance| menu.choice name_price_ingredient(favorite_instance.drink), -> { order(favorite_instance.drink)}}
         menu.choice "Create your own\n", -> { customize }
         menu.choice "Go Back", -> { welcome }
     end 
