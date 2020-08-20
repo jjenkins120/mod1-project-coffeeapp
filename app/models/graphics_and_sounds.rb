@@ -50,7 +50,7 @@ hmmmmhhhhhhhdmmh:`  :ydmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmddhyo/:-+ydh+`  -ommd
               `+ddy/.`           .-/////+++++++////:.`           `:odds-   
                 `:oddhs/-`                                  `.:oyddy/.     
                     -/shddhso/:-```                 ``.-/+sydddy+-`        
-                        `-/+syddmddhyyysssssssssyyhhdmddhso/:. ".colorize(:white)
+                        `-/+syddmddhyyysssssssssyyhhdmddhso/:. ".colorize(:red)
 puts "
 
               ██╗  ██╗   ██╗        ██╗     ██████╗ █████╗ ███████╗███████╗
@@ -107,7 +107,7 @@ hmmmmhhhhhhhdmmh:`  :ydmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmddhyo/:-+ydh+`  -ommd
               `+ddy/.`           .-/////+++++++////:.`           `:odds-   
                 `:oddhs/-`                                  `.:oyddy/.     
                     -/shddhso/:-```                 ``.-/+sydddy+-`        
-                        `-/+syddmddhyyysssssssssyyhhdmddhso/:. ".colorize(:white)
+                        `-/+syddmddhyyysssssssssyyhhdmddhso/:. ".colorize(:red)
  puts "
 
               ██╗  ██╗   ██╗        ██╗     ██████╗ █████╗ ███████╗███████╗

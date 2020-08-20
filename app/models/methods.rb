@@ -265,7 +265,7 @@ end
 def exit_method
     system "clear"
     $background_music.fadeout(2000)
-    puts "\t\t\tHave a Great Day!"
+    puts "\n\t\t\tHave a Great Day!"
     sleep(0.5)
     $pop_sound_effect.play
     sleep(1)
