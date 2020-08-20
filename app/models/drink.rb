@@ -18,8 +18,9 @@ class Drink < ActiveRecord::Base
         end
     end
 
+    #Helper method to name drinks based on status as menu item
     def order_array_name
-        if self.is_menu_item? || Order.find_by(drink_id: self.id).favorite?
+        if self.is_menu_item? || 
             self.name
         else
             custom_drink_name

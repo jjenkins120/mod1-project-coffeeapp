@@ -93,9 +93,11 @@ def order(drink_instance)
     end
 end
 
+#Helper method to determine if a newly made order is already a favorite
 def is_favorite?
     all_favorites.find {|favorite_order| favorite_order.drink_id == Order.last.drink_id}
 end 
+
 #Allows user to confirm drink order and displays drink information upon confirmation
 #Allows signed-in user to save as favorite
 def order_confirm(drink_instance)
@@ -113,6 +115,7 @@ def order_confirm(drink_instance)
     end
 end
 
+#Informs user of successful order and total order price
 def finalize_order(drink_instance)
     system "clear"
     if @order_array.count == 1
@@ -133,14 +136,17 @@ def finalize_order(drink_instance)
     welcome
 end
 
+#Helper method to sum a total order
 def order_array_sum
     @order_array.map {|order| order.price}.sum 
 end
 
+#Helper method to call a customized drink by this name
 def custom_drink_name
     "Customized Drink"
 end
 
+#Allows user to either add another drink or complete order
 def another_drink(drink_instance)
     system "clear"
     $prompt.select("Would you like to ADD ANOTHER DRINK or COMPLETE ORDER?:") do |menu|
@@ -225,12 +231,6 @@ end
 #Helper method which finds all instances of signed-in user's favorite orders
 def all_favorites
     which_user.orders.select {|order_instance| order_instance.favorite? == true}
-end
-
-#Helper method that displays an array of unique favorites' names 
-def uniq_favorites
-    favorites_array = which_user.orders.select {|order_instance| order_instance.favorite? == true}
-    favorites_array = favorites_array.map{|favorite| favorite.drink.name}.uniq
 end
 
 #Allows user to delete their own account
