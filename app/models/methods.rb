@@ -124,14 +124,15 @@ def finalize_order(drink_instance)
         else
             puts "You have successfully ordered a #{custom_drink_name} for a total of $#{drink_instance.price}. Thanks for coming!"
         end
-        @order_array = []
+        
     elsif @order_array.count == 2
         puts "You have successfully ordered a #{@order_array.first.drink.order_array_name} and #{@order_array.last.drink.order_array_name} for a total of $#{order_array_sum}."
-        @order_array = []
+        
     else
-        puts "You have successfully ordered a #{@order_array[0, @order_array.count-1].map {|order| order.drink.order_array_name}.join(", ")}, and #{@order_array.last.drink.order_array_name} for a total of $#{order_array_sum}."
-        @order_array = []
+        puts "You have successfully ordered a \n#{@order_array[0, @order_array.count-1].map {|order| order.drink.order_array_name}.join(",\n")}, \nand #{@order_array.last.drink.order_array_name} \nfor a total of $#{order_array_sum}."
+        
     end
+    @order_array = []
     sleep (5)
     welcome
 end
@@ -149,7 +150,7 @@ end
 #Allows user to either add another drink or complete order
 def another_drink(drink_instance)
     system "clear"
-    $prompt.select("Would you like to ADD ANOTHER DRINK or COMPLETE ORDER?:") do |menu|
+    $prompt.select("Would you like to ADD ANOTHER DRINK or COMPLETE ORDER?") do |menu|
         menu.choice "Add another drink", -> {new_order}
         menu.choice "Complete order", -> {finalize_order(drink_instance)}
     end
