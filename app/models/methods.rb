@@ -59,7 +59,7 @@ def order2
     $prompt.select("Please choose from one of the following drink options:\n") do |menu|
         system "clear"
         Drink.menu_items.each{|drink_instance| menu.choice name_price_ingredient(drink_instance), -> { order(drink_instance)}}
-        uniq_favorites.select{|drink_name| Drink.find_by(name: drink_name).is_menu_item? == false}.each{|drink_name| menu.choice name_price_ingredient(Drink.find_by(name: drink_name)), -> { order(Drink.find_by(name: drink_name))}}
+        all_favorites.select{|favorite_instance| favorite_instance.drink.is_menu_item? == false}.each{|favorite_instance| menu.choice name_price_ingredient(favorite_instance.drink), -> { order(favorite_instance.drink)}}
         menu.choice "Create your own\n", -> { customize }
         menu.choice "Go Back", -> { welcome }
     end 
@@ -93,23 +93,67 @@ def order(drink_instance)
     end
 end
 
+#Helper method to determine if a newly made order is already a favorite
+def is_favorite?
+    all_favorites.find {|favorite_order| favorite_order.drink_id == Order.last.drink_id}
+end 
+
 #Allows user to confirm drink order and displays drink information upon confirmation
 #Allows signed-in user to save as favorite
 def order_confirm(drink_instance)
     if is_signed_in 
         Order.create({user_id: User.find_by(signed_in?: true).id, drink_id: drink_instance.id, price: drink_instance.price})
-        Order.last.favorite(drink_instance)
+        if !is_favorite?
+            Order.last.favorite
+        end
+        @order_array << Order.last
+        another_drink(drink_instance)
     else
         Order.create({drink_id: drink_instance.id, price: drink_instance.price})
+        @order_array << Order.last
+        another_drink (drink_instance)
     end
+end
+
+#Informs user of successful order and total order price
+def finalize_order(drink_instance)
     system "clear"
-    if drink_instance.is_menu_item?
-        puts "You have successfully ordered a #{drink_instance.name}. Thanks for coming!"
+    if @order_array.count == 1
+        if drink_instance.is_menu_item?
+            puts "You have successfully ordered a #{drink_instance.name} for a total of $#{drink_instance.price}. Thanks for coming!"
+        else
+            puts "You have successfully ordered a #{custom_drink_name} for a total of $#{drink_instance.price}. Thanks for coming!"
+        end
+        
+    elsif @order_array.count == 2
+        puts "You have successfully ordered a #{@order_array.first.drink.order_array_name} and #{@order_array.last.drink.order_array_name} for a total of $#{order_array_sum}."
+        
     else
-        puts "You have successfully ordered a customized drink. Thanks for coming!"
+        puts "You have successfully ordered a \n#{@order_array[0, @order_array.count-1].map {|order| order.drink.order_array_name}.join(",\n")}, \nand #{@order_array.last.drink.order_array_name} \nfor a total of $#{order_array_sum}."
+        
     end
-    sleep (3)
+    @order_array = []
+    sleep (5)
     welcome
+end
+
+#Helper method to sum a total order
+def order_array_sum
+    @order_array.map {|order| order.price}.sum 
+end
+
+#Helper method to call a customized drink by this name
+def custom_drink_name
+    "Customized Drink"
+end
+
+#Allows user to either add another drink or complete order
+def another_drink(drink_instance)
+    system "clear"
+    $prompt.select("Would you like to ADD ANOTHER DRINK or COMPLETE ORDER?") do |menu|
+        menu.choice "Add another drink", -> {new_order}
+        menu.choice "Complete order", -> {finalize_order(drink_instance)}
+    end
 end
 
 #Allows user to sign in
@@ -180,16 +224,14 @@ end
 def see_favorites
     system "clear"
     puts "Here is a list of your Favorites:"
-    uniq_favorites.each {|drink_name| puts "~ #{drink_name} | $#{Drink.find_by(name:drink_name).price} | #{Drink.find_by(name:drink_name).ingredients.map {|ingredient_instance|ingredient_instance.name}.join(", ")}\n"}
+    all_favorites.each {|order_instance| puts "~ #{order_instance.drink.name} | $#{order_instance.drink.price} | #{order_instance.drink.ingredients.map {|ingredient_instance|ingredient_instance.name}.join(", ")}\n"}
         $prompt.select("Press 'enter' to return to the previous menu.") do |menu|
             menu.choice "", -> {account_method}
         end
 end
-
-#Helper method that displays an array of unique favorites' names 
-def uniq_favorites
-    favorites_array = which_user.orders.select {|order_instance| order_instance.favorite? == true}
-    favorites_array = favorites_array.map{|favorite| favorite.drink.name}.uniq
+#Helper method which finds all instances of signed-in user's favorite orders
+def all_favorites
+    which_user.orders.select {|order_instance| order_instance.favorite? == true}
 end
 
 #Allows user to delete their own account
