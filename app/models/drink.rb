@@ -18,4 +18,12 @@ class Drink < ActiveRecord::Base
         end
     end
 
+    def order_array_name
+        if self.is_menu_item? || Order.find_by(drink_id: self.id).favorite?
+            self.name
+        else
+            custom_drink_name
+        end 
+    end
+
 end
