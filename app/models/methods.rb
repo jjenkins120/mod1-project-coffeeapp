@@ -200,9 +200,11 @@ def create_account
         puts "Username already exists."
         create_account
     else 
-        password = $prompt.mask("Please create a password:")
+        password = $prompt.mask("Please create a password or type 'exit' to exit:")
         #Verifies password entry
-        if password == $prompt.mask("Please re-enter password:")
+        if password == "exit"
+            welcome 
+        elsif password == $prompt.mask("Please re-enter password:")
             User.create({username: username, password: password, signed_in?: true})
             puts "Account username: \"#{username}\" created! You are now signed in!"
             sleep (2)
