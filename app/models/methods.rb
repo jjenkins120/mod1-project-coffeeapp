@@ -246,9 +246,17 @@ def see_favorites
     favorites_graphic
     puts "Here is a list of your Favorites:"
     all_favorites.each {|order_instance| puts "~ #{order_instance.drink.name} | $#{order_instance.drink.price} | #{order_instance.drink.ingredients.map {|ingredient_instance|ingredient_instance.name}.join(", ")}\n"}
-        $prompt.select("Press 'enter' to return to the previous menu.") do |menu|
-            menu.choice "", -> {account_method}
+        $prompt.select("Would you like to DELETE A FAVORITE or return to previous menu?") do |menu|
+            menu.choice "Delete a Favorite", -> {delete_favorite}
+            menu.choice "Return to Account Menu", -> {account_method}
         end
+end
+
+def delete_favorite 
+    $prompt.select ("Which Favorite would you like to delete?") do |menu|
+        all_favorites.each{|favorite_instance| menu.choice (favorite_instance.drink.name), -> { favorite_instance.update(favorite?: false); see_favorites}}
+    menu.choice "Exit", -> {see_favorites}
+    end
 end
 #Helper method which finds all instances of signed-in user's favorite orders
 def all_favorites
